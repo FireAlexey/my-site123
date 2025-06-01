@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Маме</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #fff9f9;
+      color: #333;
+      scroll-behavior: smooth;
+    }
+
+    section {
+      min-height: 100vh;
+      padding: 3rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: all 0.8s ease;
+    }
+
+    section.visible {
+      opacity: 1;
+    }
+
+    .animate-up { transform: translateY(40px); }
+    .animate-up.visible { transform: translateY(0); }
+
+    .animate-left { transform: translateX(-40px); }
+    .animate-left.visible { transform: translateX(0); }
+
+    .animate-right { transform: translateX(40px); }
+    .animate-right.visible { transform: translateX(0); }
+
+    .animate-zoom { transform: scale(0.9); }
+    .animate-zoom.visible { transform: scale(1); }
+
+    h1, h2 {
+      font-size: 2.5rem;
+      color: #d35400;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    p {
+      font-size: 1.2rem;
+      font-weight: 300;
+      margin-bottom: 2rem;
+      text-align: center;
+      max-width: 600px;
+    }
+
+    .gif-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .gif-card {
+      background: white;
+      padding: 0.8rem;
+      border-radius: 15px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      position: relative;
+      cursor: pointer;
+    }
+
+    .gif-card img {
+      width: 100%;
+      max-width: 280px;
+      height: auto;
+      border-radius: 10px;
+      display: block;
+    }
+
+    .heart, .emoji-burst {
+      position: absolute;
+      font-size: 2rem;
+      pointer-events: none;
+      user-select: none;
+      animation: float 1.2s ease-out forwards;
+    }
+
+    @keyframes float {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-100px) scale(1.5); }
+    }
+
+    @media (max-width: 600px) {
+      h1, h2 {
+        font-size: 2rem;
+      }
+
+      .gif-card img {
+        max-width: 90vw;
+      }
+    }
+
+    .section-title {
+      font-size: 2rem;
+      color: #8e44ad;
+      margin-bottom: 1rem;
+    }
+
+    .section-content {
+      font-size: 1.1rem;
+      max-width: 600px;
+      text-align: center;
+    }
+
+        .popup {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .popup-content {
+      background: white;
+      border-radius: 15px;
+      padding: 1rem;
+      max-width: 90%;
+      max-height: 90%;
+      text-align: center;
+      position: relative;
+      animation: popupFade 0.4s ease-out;
+    }
+
+    .popup-content img {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 10px;
+    }
+
+    .popup-content p {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #d35400;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px; right: 15px;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    @keyframes popupFade {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+  </style>
+</head>
+<body>
+  <section class="animate-up visible">
+    <h1>С днём рождения, мама! 🥳</h1>
+    <p>Желаю тебе счастья, радости и всего самого наилучшего! 💐</p>
+    <div class="gif-container">
+      <div class="gif-card">
+        <img src="gif1.gif" alt="Гифка 1">
+      </div>
+      <div class="gif-card">
+        <img src="gif2.gif" alt="Гифка 2">
+      </div>
+      <div class="gif-card">
+        <img src="gif3.gif" alt="Гифка 3">
+      </div>
+    </div>
+  </section>
+
+  <section class="animate-left">
+    <h2 class="section-title">Поздравляю!</h2>
+    <p class="section-content">Помни как я люблю тебя ❤️</p>
+    <p class="section-content">Нажми на любую картинку или гифку</p>
+
+    <div class="gif-container">
+      <div class="gif-card" onclick="openPopup('gif4.gif', 'Желаю тебе здоровья, достатка и любви! 💖')">
+        <img src="gif4.gif" alt="" />
+      </div>
+      <div class="gif-card" onclick="openPopup('photo1.png', 'Ты самая лучшая мама в мире! 💐 ')">
+        <img src="photo1.png" alt="" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Всплывающее окно -->
+  <div id="popup" class="popup">
+    <div class="popup-content">
+      <span class="close-btn" onclick="closePopup()">×</span>
+      <img id="popup-img" src="" alt="">
+      <p id="popup-text"></p>
+    </div>
+  </div>
+
+
+
+  <section class="animate-right">
+      <h2 class="section-title">💖Посмотри еще на наши фото💖</h2>
+      <p class="section-content"></p>
+    <div class="gif-container">
+      <div class="gif-card">
+        <img src="photo.jpg" />
+      </div>
+          <div class="gif-card">
+        <img src="photo1.jpg" />
+      </div>
+          <div class="gif-card">
+        <img src="photo2.jpg" />
+      </div>
+    </div>
+  </section>
+
+  <section class="animate-zoom">
+    <h2 class="section-title">Конец</h2>
+    <p class="section-content">Надеюсь тебе понравился мой сайт и ты купишь мне шоколадку😊.</p>
+              <div class="gif-card">
+        <img src="photo2.png" />
+      </div>
+  </section>
+
+  <script>
+    const emojis = ["🩷", "💗", "💖", "❤️", "🎈", "🎉", "✨", "💐", "🌹", "🌷"];
+
+    // Эффект "сердечка" при клике по гифке
+    document.querySelectorAll('.gif-card').forEach(card => {
+      card.addEventListener('click', e => {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        const rect = card.getBoundingClientRect();
+        const offsetX = e.clientX - rect.left;
+        const offsetY = e.clientY - rect.top;
+        heart.style.left = `${offsetX}px`;
+        heart.style.top = `${offsetY}px`;
+        card.appendChild(heart);
+        setTimeout(() => heart.remove(), 1000);
+      });
+    });
+
+    // Появление секций + Эмодзи-бросок
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        emojiBurst(entry.target);
+      } else {
+        entry.target.classList.remove('visible');
+      }
+
+      });
+    }, { threshold: 0.4 });
+
+    document.querySelectorAll('section').forEach(section => observer.observe(section));
+
+    // Эмодзи-бросок
+    function emojiBurst(section) {
+      for (let i = 0; i < 10; i++) {
+        const emoji = document.createElement('div');
+        emoji.className = 'emoji-burst';
+        emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        emoji.style.left = `${Math.random() * 100}%`;
+        emoji.style.top = `${Math.random() * 100}%`;
+        emoji.style.fontSize = `${1 + Math.random() * 1.5}rem`;
+        emoji.style.position = 'absolute';
+        emoji.style.animation = 'float 1.2s ease-out forwards';
+        emoji.style.zIndex = '1000';
+        section.appendChild(emoji);
+        setTimeout(() => emoji.remove(), 1500);
+      }
+    }
+
+    function openPopup(src, text) {
+  document.getElementById('popup-img').src = src;
+  document.getElementById('popup-text').textContent = text;
+  document.getElementById('popup').style.display = 'flex';
+}
+
+function closePopup() {
+  document.getElementById('popup').style.display = 'none';
+}
+
+  </script>
+</body>
+</html>
